@@ -37,6 +37,22 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data
 
+    database_test:
+        build:
+            context: .
+            dockerfile: docker/postgres.dockerfile
+        container_name: test_marshmello_postgres
+        image: marshmello/postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: user_test
+            POSTGRES_PASSWORD: password_test
+            POSTGRES_DB: marshmello_test
+        networks:
+            - "default"
+        volumes:
+            - postgres_test_data:/var/lib/postgresql/data
+
     adminer:
         container_name: dev_marshmello_adminer
         image: adminer:latest
@@ -71,3 +87,5 @@ networks:
 volumes:
     postgres_data:
         name: dev_vol_marshmello_pg
+    postgres_test_data:
+        name: test_vol_marshmello_pg

@@ -51,6 +51,7 @@
 		"@adonisjs/tsconfig": "^1.4.0",
 		"@eslint-community/eslint-plugin-eslint-comments": "^4.4.1",
 		"@eslint/js": "^9.14.0",
+		"@japa/api-client": "^2.0.4",
 		"@japa/assert": "^3.0.0",
 		"@japa/plugin-adonisjs": "^3.0.1",
 		"@japa/runner": "^3.1.4",
