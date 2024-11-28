@@ -29,7 +29,6 @@
 - [X] Se connecter
 - [X] Se déconnecter
 - [X] Supprimer son compte
-- [ ] Modifier ses informations
 
 ## Modèles
 
