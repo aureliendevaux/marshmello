@@ -5,6 +5,7 @@ import { middleware } from '#start/kernel';
 const todoController = () => import('#controllers/todo_controller');
 const authController = () => import('#controllers/auth_controller');
 const accountController = () => import('#controllers/account_controller');
+const projectController = () => import('#controllers/project_controller');
 
 router
 	.group(() => {
@@ -20,6 +21,17 @@ router
 	})
 	.use(middleware.auth())
 	.prefix('/account');
+
+router
+	.group(() => {
+		router.get('/', [projectController, 'index']).as('projects.index');
+		router.get('/:uuid', [projectController, 'show']).as('projects.show');
+		router.post('/', [projectController, 'store']).as('projects.store');
+		router.patch('/:uuid', [projectController, 'update']).as('projects.update');
+		router.delete('/:uuid', [projectController, 'destroy']).as('projects.destroy');
+	})
+	.use(middleware.auth())
+	.prefix('/projects');
 
 router
 	.group(() => {
