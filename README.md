@@ -25,9 +25,9 @@
 
 ### Utilisateurs
 
-- [ ] Créer un compte
-- [ ] Se connecter
-- [ ] Se déconnecter
+- [X] Créer un compte
+- [X] Se connecter
+- [X] Se déconnecter
 - [ ] Supprimer un compte
 - [ ] Modifier ses informations
 
