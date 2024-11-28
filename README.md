@@ -28,7 +28,7 @@
 - [X] Créer un compte
 - [X] Se connecter
 - [X] Se déconnecter
-- [ ] Supprimer un compte
+- [X] Supprimer son compte
 - [ ] Modifier ses informations
 
 ## Modèles

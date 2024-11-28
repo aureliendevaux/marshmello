@@ -4,6 +4,7 @@ import { middleware } from '#start/kernel';
 
 const todoController = () => import('#controllers/todo_controller');
 const authController = () => import('#controllers/auth_controller');
+const accountController = () => import('#controllers/account_controller');
 
 router
 	.group(() => {
@@ -12,6 +13,13 @@ router
 		router.post('/register', [authController, 'register']).as('auth.register');
 	})
 	.prefix('/auth');
+
+router
+	.group(() => {
+		router.delete('/', [accountController, 'deleteAccount']).as('account.delete');
+	})
+	.use(middleware.auth())
+	.prefix('/account');
 
 router
 	.group(() => {
