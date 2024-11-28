@@ -29,7 +29,7 @@ test.group('Todos', () => {
 			name: todoName,
 		});
 
-		const todoId = createResponse.response.body.id;
+		const todoId = (createResponse.response.body as { id: number }).id;
 
 		const getResponse = await client.get(`/todos/${todoId}`);
 
@@ -40,5 +40,38 @@ test.group('Todos', () => {
 			completed: false,
 			deletedAt: null,
 		});
+	});
+
+	test('it should update a todo', async ({ client }) => {
+		const todoName = 'ma première todo';
+		const createResponse = await client.post('/todos').json({
+			name: todoName,
+		});
+
+		const todoId = (createResponse.response.body as { id: number }).id;
+
+		const patchResponse = await client.patch(`/todos/${todoId}`).json({
+			name: todoName,
+			completed: true,
+		});
+
+		patchResponse.assertStatus(200);
+		patchResponse.assertBodyContains({
+			id: todoId,
+			name: todoName,
+			completed: true,
+			deletedAt: null,
+		});
+	});
+
+	test('it should delete a todo', async ({ client }) => {
+		const todoName = 'ma première todo';
+		const createResponse = await client.post('/todos').json({
+			name: todoName,
+		});
+
+		const todoId = (createResponse.response.body as { id: number }).id;
+		const patchResponse = await client.delete(`/todos/${todoId}`);
+		patchResponse.assertStatus(204);
 	});
 });
