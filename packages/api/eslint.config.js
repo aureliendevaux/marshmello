@@ -187,6 +187,7 @@ const sonar = [
 		rules: {
 			'sonarjs/no-duplicate-string': 'off',
 			'sonarjs/no-accessor-field-mismatch': 'off',
+			'sonarjs/no-hardcoded-credentials': 'off',
 		},
 	},
 ];
