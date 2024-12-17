@@ -1,8 +1,11 @@
+import testUtils from '@adonisjs/core/services/test_utils';
 import { test } from '@japa/runner';
 
 import User from '#models/user';
 
-test.group('Authentication', () => {
+test.group('Authentication', (group) => {
+	group.each.setup(() => testUtils.db().withGlobalTransaction());
+
 	test('it should not login when invalid credentials', async ({ client }) => {
 		const response = await client.post('/auth/login').json({
 			username: 'bad_username',

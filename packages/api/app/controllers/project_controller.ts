@@ -21,7 +21,6 @@ export default class ProjectController {
 
 		const project = await Project.findByOrFail({
 			uuid: params.uuid,
-			userId: auth.user!.id,
 		});
 
 		return response.json(project.serialize());
@@ -45,7 +44,6 @@ export default class ProjectController {
 
 		const project = await Project.findByOrFail({
 			uuid: params.uuid,
-			userId: auth.user!.id,
 		});
 
 		const payload = await request.validateUsing(editProjectSchema);
@@ -61,7 +59,6 @@ export default class ProjectController {
 
 		const project = await Project.findByOrFail({
 			uuid: params.uuid,
-			userId: auth.user!.id,
 		});
 
 		await project.delete();

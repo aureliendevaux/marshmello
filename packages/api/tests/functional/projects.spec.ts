@@ -1,6 +1,7 @@
 import testUtils from '@adonisjs/core/services/test_utils';
 import { test } from '@japa/runner';
 
+import Project from '#models/project';
 import User from '#models/user';
 
 test.group('Projects', (group) => {
@@ -36,68 +37,43 @@ test.group('Projects', (group) => {
 
 	test('it should get a project by id', async ({ client }) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
-		const projectName = 'mon projet';
-		const createResponse = await client
-			.post('/projects')
-			.json({
-				name: projectName,
-				userId: user.id,
-			})
-			.loginAs(user);
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
 
-		const projectId = (createResponse.response.body as { uuid: string }).uuid;
-
-		const getResponse = await client.get(`/projects/${projectId}`).loginAs(user);
+		const getResponse = await client.get(`/projects/${project.uuid}`).loginAs(user);
 
 		getResponse.assertStatus(200);
 		getResponse.assertBodyContains({
-			uuid: projectId,
-			name: projectName,
+			uuid: project.uuid,
+			name: project.name,
 			userId: user.id,
 		});
 	});
 
 	test('it should update a project', async ({ client }) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
-		const projectName = 'mon projet';
-		const createResponse = await client
-			.post('/projects')
-			.json({
-				name: projectName,
-				userId: user.id,
-			})
-			.loginAs(user);
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
 
-		const projectId = (createResponse.response.body as { uuid: string }).uuid;
-
+		const newName = 'mon nouveau projet';
 		const patchResponse = await client
-			.patch(`/projects/${projectId}`)
+			.patch(`/projects/${project.uuid}`)
 			.json({
-				name: projectName,
+				name: newName,
 			})
 			.loginAs(user);
 
 		patchResponse.assertStatus(200);
 		patchResponse.assertBodyContains({
-			uuid: projectId,
-			name: projectName,
+			uuid: project.uuid,
+			name: newName,
 			userId: user.id,
 		});
 	});
 
 	test('it should delete a project', async ({ client }) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
-		const projectName = 'mon projet';
-		const createResponse = await client
-			.post('/projects')
-			.json({
-				name: projectName,
-				userId: user.id,
-			})
-			.loginAs(user);
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
 
-		const projectId = (createResponse.response.body as { uuid: string }).uuid;
-		const patchResponse = await client.delete(`/projects/${projectId}`).loginAs(user);
+		const patchResponse = await client.delete(`/projects/${project.uuid}`).loginAs(user);
 		patchResponse.assertStatus(204);
 	});
 });
