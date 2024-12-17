@@ -51,7 +51,7 @@ export default class ProjectController {
 		const payload = await request.validateUsing(editProjectSchema);
 		await project.merge(payload).save();
 
-		return response.created(project.serialize());
+		return response.json(project.serialize());
 	}
 
 	async destroy({ auth, params, response }: HttpContext) {
