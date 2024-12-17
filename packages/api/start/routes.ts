@@ -6,6 +6,7 @@ const todoController = () => import('#controllers/todo_controller');
 const authController = () => import('#controllers/auth_controller');
 const accountController = () => import('#controllers/account_controller');
 const projectController = () => import('#controllers/project_controller');
+const statusController = () => import('#controllers/status_controller');
 
 router
 	.group(() => {
@@ -35,10 +36,21 @@ router
 
 router
 	.group(() => {
-		router.get('/', [todoController, 'index']);
+		router.get('/list/:projectUuid', [statusController, 'index']).as('statuses.index');
+		router.get('/:uuid', [statusController, 'show']).as('statuses.show');
+		router.post('/', [statusController, 'store']).as('statuses.store');
+		router.patch('/:uuid', [statusController, 'update']).as('statuses.update');
+		router.delete('/:uuid', [statusController, 'destroy']).as('statuses.destroy');
+	})
+	.use(middleware.auth())
+	.prefix('/statuses');
+
+router
+	.group(() => {
+		router.get('/list/:projectUuid', [todoController, 'index']);
 		router.post('/', [todoController, 'create']);
-		router.get('/:id', [todoController, 'show']);
-		router.patch('/:id', [todoController, 'update']);
-		router.delete('/:id', [todoController, 'delete']);
+		router.get('/:uuid', [todoController, 'show']);
+		router.patch('/:uuid', [todoController, 'update']);
+		router.delete('/:uuid', [todoController, 'delete']);
 	})
 	.prefix('/todos');

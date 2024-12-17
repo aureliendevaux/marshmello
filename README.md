@@ -4,24 +4,25 @@
 
 ### Projets
 
-- [ ] Créer un projet
-- [ ] Renommer un projet
-- [ ] Supprimer un projet (et tous les statuts et toutes les tâches associés)
+- [X] Créer un projet
+- [X] Renommer un projet
+- [X] Supprimer un projet (et tous les statuts et toutes les tâches associés)
 
 ### Statuts
 
-- [ ] Créer un statut
-- [ ] Renommer un statut
-- [ ] Supprimer un statut (et déplacer les tâches dans un statut "non classé")
-- [ ] Changer l'ordre des statuts
+- [X] Lister les statuts d'un projet
+- [X] Créer un statut
+- [X] Renommer un statut
+- [X] Supprimer un statut (et déplacer les tâches dans un statut "non classé")
+- [X] Changer l'ordre des statuts
 
 ### Tâches
 
-- [ ] Créer une tâche
-- [ ] Modifier une tâche
-- [ ] Supprimer une tâche
-- [ ] Déplacer une tâche d'un statut à un autre
-- [ ] Toggle une tâche (terminée/non terminée)
+- [X] Créer une tâche
+- [X] Modifier une tâche
+- [X] Supprimer une tâche
+- [X] Déplacer une tâche d'un statut à un autre
+- [X] Toggle une tâche (terminée/non terminée)
 
 ### Utilisateurs
 
