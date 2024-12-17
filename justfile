@@ -1,6 +1,7 @@
 NODE := "docker compose exec node"
 PNPM := NODE + " pnpm"
-API := NODE + " pnpm -F api"
+API := NODE + " pnpm -F '@marshmello/api'"
+FRONT := NODE + " pnpm -F '@marshmello/front'"
 
 ace +args:
 	{{API}} ace {{args}}
@@ -10,6 +11,9 @@ pnpm +args:
 
 api +args:
 		{{API}} {{args}}
+
+front +args:
+		{{FRONT}} {{args}}
 
 ncu pkg="api":
 	{{NODE}} ncu -iu --workspace="@marshmello/{{pkg}}"
