@@ -13,7 +13,7 @@ test.group('Todos', (group) => {
 		const user = await User.create({ username: 'test1234', password: 'test1234' });
 		const project = await Project.create({ name: 'mon projet', userId: user.id });
 
-		const response = await client.get(`/todos/list/${project.uuid}`);
+		const response = await client.get(`/todos/list/${project.uuid}`).loginAs(user);
 
 		response.assertStatus(200);
 		response.assertBody([]);
@@ -29,12 +29,15 @@ test.group('Todos', (group) => {
 		const project = await Project.create({ name: 'mon projet', userId: user.id });
 		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
 
-		const response = await client.post('/todos').json({
-			name: baseTodo.name,
-			description: baseTodo.description,
-			statusId: status.id,
-			projectId: project.id,
-		});
+		const response = await client
+			.post('/todos')
+			.json({
+				name: baseTodo.name,
+				description: baseTodo.description,
+				statusId: status.id,
+				projectId: project.id,
+			})
+			.loginAs(user);
 
 		response.assertStatus(201);
 		response.assertBodyContains({
@@ -62,7 +65,7 @@ test.group('Todos', (group) => {
 			statusId: status.id,
 		});
 
-		const getResponse = await client.get(`/todos/${todo.uuid}`);
+		const getResponse = await client.get(`/todos/${todo.uuid}`).loginAs(user);
 
 		getResponse.assertStatus(200);
 		getResponse.assertBodyContains({
@@ -91,9 +94,12 @@ test.group('Todos', (group) => {
 			statusId: status.id,
 		});
 
-		const patchResponse = await client.patch(`/todos/${todo.uuid}`).json({
-			completed: true,
-		});
+		const patchResponse = await client
+			.patch(`/todos/${todo.uuid}`)
+			.json({
+				completed: true,
+			})
+			.loginAs(user);
 
 		patchResponse.assertStatus(200);
 		patchResponse.assertBodyContains({
@@ -122,7 +128,7 @@ test.group('Todos', (group) => {
 			statusId: status.id,
 		});
 
-		const patchResponse = await client.delete(`/todos/${todo.uuid}`);
+		const patchResponse = await client.delete(`/todos/${todo.uuid}`).loginAs(user);
 		patchResponse.assertStatus(204);
 	});
 });
