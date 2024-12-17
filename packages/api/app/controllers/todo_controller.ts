@@ -1,49 +1,66 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
-import { DateTime } from 'luxon';
-
+import Project from '#models/project';
 import Todo from '#models/todo';
 import { createSchema, updateSchema } from '#validators/todo_validator';
 
 export default class TodoController {
-	async index({ response }: HttpContext) {
-		const todos = await Todo.all();
+	async index({ auth, params, response }: HttpContext) {
+		if (auth.use('web').isLoggedOut) {
+			return response.unauthorized();
+		}
+
+		const project = await Project.findByOrFail({ uuid: params.projectUuid });
+		const todos = await Todo.findManyBy({
+			projectId: project.id,
+		});
 
 		return response.json(todos);
 	}
 
-	async show({ params, response }: HttpContext) {
-		const todo = await Todo.findOrFail(params.id);
+	async show({ auth, params, response }: HttpContext) {
+		if (auth.use('web').isLoggedOut) {
+			return response.unauthorized();
+		}
+
+		const todo = await Todo.findByOrFail({ uuid: params.uuid });
 
 		return response.json(todo);
 	}
 
-	async create({ request, response }: HttpContext) {
+	async create({ auth, request, response }: HttpContext) {
+		if (auth.use('web').isLoggedOut) {
+			return response.unauthorized();
+		}
+
 		const payload = await request.validateUsing(createSchema);
 
 		const todo = await Todo.create(payload);
 
-		return response.status(201).json(todo);
+		return response.created(todo);
 	}
 
-	async update({ params, request, response }: HttpContext) {
-		const todo = await Todo.findOrFail(params.id);
+	async update({ auth, params, request, response }: HttpContext) {
+		if (auth.use('web').isLoggedOut) {
+			return response.unauthorized();
+		}
+
+		const todo = await Todo.findByOrFail({ uuid: params.uuid });
 		const payload = await request.validateUsing(updateSchema);
 
-		todo.merge(payload);
-		await todo.save();
+		await todo.merge(payload).save();
 
 		return response.json(todo);
 	}
 
-	async delete({ params, response }: HttpContext) {
-		const todo = await Todo.findOrFail(params.id);
+	async delete({ auth, params, response }: HttpContext) {
+		if (auth.use('web').isLoggedOut) {
+			return response.unauthorized();
+		}
 
-		await todo
-			.merge({
-				deletedAt: DateTime.now(),
-			})
-			.save();
+		const todo = await Todo.findByOrFail({ uuid: params.uuid });
+
+		await todo.delete();
 
 		return response.noContent();
 	}

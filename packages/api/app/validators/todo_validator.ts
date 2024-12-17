@@ -1,8 +1,20 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
+import Project from '#models/project';
+import Status from '#models/status';
+
 export const createSchema = vine.compile(
 	vine.object({
 		name: vine.string().minLength(3).maxLength(255),
+		description: vine.string().nullable(),
+		statusId: vine.number().exists(async (_, value) => {
+			const row = await Status.find(value);
+			return row !== null;
+		}),
+		projectId: vine.number().exists(async (_, value) => {
+			const row = await Project.find(value);
+			return row !== null;
+		}),
 	}),
 );
 
@@ -13,8 +25,16 @@ createSchema.messagesProvider = new SimpleMessagesProvider({
 
 export const updateSchema = vine.compile(
 	vine.object({
-		name: vine.string().minLength(3).maxLength(255),
-		completed: vine.boolean(),
+		name: vine.string().minLength(3).maxLength(255).optional(),
+		description: vine.string().nullable().optional(),
+		statusId: vine
+			.number()
+			.exists(async (_, value) => {
+				const row = await Status.find(value);
+				return row !== null;
+			})
+			.optional(),
+		completed: vine.boolean().optional(),
 	}),
 );
 

@@ -1,77 +1,128 @@
+import testUtils from '@adonisjs/core/services/test_utils';
 import { test } from '@japa/runner';
 
-test.group('Todos', () => {
+import Project from '#models/project';
+import Status from '#models/status';
+import Todo from '#models/todo';
+import User from '#models/user';
+
+test.group('Todos', (group) => {
+	group.each.setup(() => testUtils.db().withGlobalTransaction());
+
 	test('it should return the list of todos', async ({ client }) => {
-		const response = await client.get('/todos');
+		const user = await User.create({ username: 'test1234', password: 'test1234' });
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
+
+		const response = await client.get(`/todos/list/${project.uuid}`);
 
 		response.assertStatus(200);
 		response.assertBody([]);
 	});
 
 	test('it should create a new todo', async ({ client }) => {
-		const todoName = 'ma première todo';
+		const baseTodo = {
+			name: 'ma première todo',
+			description: 'lorem ipsum dolor sit amet.',
+		};
+
+		const user = await User.create({ username: 'test1234', password: 'test1234' });
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
+		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
 
 		const response = await client.post('/todos').json({
-			name: todoName,
+			name: baseTodo.name,
+			description: baseTodo.description,
+			statusId: status.id,
+			projectId: project.id,
 		});
 
 		response.assertStatus(201);
 		response.assertBodyContains({
-			name: todoName,
+			name: baseTodo.name,
+			description: baseTodo.description,
 			completed: false,
-			deletedAt: null,
+			projectId: project.id,
+			statusId: status.id,
 		});
 	});
 
 	test('it should get a todo by id', async ({ client }) => {
-		const todoName = 'ma première todo';
-		const createResponse = await client.post('/todos').json({
-			name: todoName,
+		const baseTodo = {
+			name: 'ma première todo',
+			description: 'lorem ipsum dolor sit amet.',
+		};
+
+		const user = await User.create({ username: 'test1234', password: 'test1234' });
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
+		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+		const todo = await Todo.create({
+			name: baseTodo.name,
+			description: baseTodo.description,
+			projectId: project.id,
+			statusId: status.id,
 		});
 
-		const todoId = (createResponse.response.body as { id: number }).id;
-
-		const getResponse = await client.get(`/todos/${todoId}`);
+		const getResponse = await client.get(`/todos/${todo.uuid}`);
 
 		getResponse.assertStatus(200);
 		getResponse.assertBodyContains({
-			id: todoId,
-			name: todoName,
+			uuid: todo.uuid,
+			name: baseTodo.name,
+			description: baseTodo.description,
 			completed: false,
-			deletedAt: null,
+			projectId: project.id,
+			statusId: status.id,
 		});
 	});
 
 	test('it should update a todo', async ({ client }) => {
-		const todoName = 'ma première todo';
-		const createResponse = await client.post('/todos').json({
-			name: todoName,
+		const baseTodo = {
+			name: 'ma première todo',
+			description: 'lorem ipsum dolor sit amet.',
+		};
+
+		const user = await User.create({ username: 'test1234', password: 'test1234' });
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
+		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+		const todo = await Todo.create({
+			name: baseTodo.name,
+			description: baseTodo.description,
+			projectId: project.id,
+			statusId: status.id,
 		});
 
-		const todoId = (createResponse.response.body as { id: number }).id;
-
-		const patchResponse = await client.patch(`/todos/${todoId}`).json({
-			name: todoName,
+		const patchResponse = await client.patch(`/todos/${todo.uuid}`).json({
 			completed: true,
 		});
 
 		patchResponse.assertStatus(200);
 		patchResponse.assertBodyContains({
-			id: todoId,
-			name: todoName,
+			uuid: todo.uuid,
+			name: baseTodo.name,
+			description: baseTodo.description,
 			completed: true,
-			deletedAt: null,
+			projectId: project.id,
+			statusId: status.id,
 		});
 	});
 
 	test('it should delete a todo', async ({ client }) => {
-		const todoName = 'ma première todo';
-		const createResponse = await client.post('/todos').json({
-			name: todoName,
+		const baseTodo = {
+			name: 'ma première todo',
+			description: 'lorem ipsum dolor sit amet.',
+		};
+
+		const user = await User.create({ username: 'test1234', password: 'test1234' });
+		const project = await Project.create({ name: 'mon projet', userId: user.id });
+		const status = await Status.create({ name: 'done', order: 1, projectId: project.id });
+		const todo = await Todo.create({
+			name: baseTodo.name,
+			description: baseTodo.description,
+			projectId: project.id,
+			statusId: status.id,
 		});
 
-		const todoId = (createResponse.response.body as { id: number }).id;
-		const patchResponse = await client.delete(`/todos/${todoId}`);
+		const patchResponse = await client.delete(`/todos/${todo.uuid}`);
 		patchResponse.assertStatus(204);
 	});
 });
