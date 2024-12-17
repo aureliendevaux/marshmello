@@ -53,4 +53,5 @@ router
 		router.patch('/:uuid', [todoController, 'update']);
 		router.delete('/:uuid', [todoController, 'delete']);
 	})
+	.use(middleware.auth())
 	.prefix('/todos');
