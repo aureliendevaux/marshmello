@@ -18,6 +18,7 @@ import eslintReact from 'eslint-plugin-react';
 import eslintReactRefresh from 'eslint-plugin-react-refresh';
 import unocss from '@unocss/eslint-config/flat';
 import eslintQuery from '@tanstack/eslint-plugin-query';
+import eslintPerfectionist from 'eslint-plugin-perfectionist';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +26,43 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
 	baseDirectory: __dirname,
 });
+
+/** @see https://github.com/azat-io/eslint-plugin-perfectionist */
+const perfectionist = [
+	{
+		plugins: {
+			perfectionist: eslintPerfectionist,
+		},
+		rules: {
+			'perfectionist/sort-imports': [
+				'error',
+				{
+					type: 'alphabetical',
+					order: 'asc',
+					ignoreCase: true,
+					specialCharacters: 'keep',
+					internalPattern: ['^#.+'],
+					partitionByComment: false,
+					partitionByNewLine: false,
+					newlinesBetween: 'always',
+					maxLineLength: undefined,
+					groups: [
+						'type',
+						['builtin', 'external'],
+						'internal-type',
+						'internal',
+						['parent-type', 'sibling-type', 'index-type'],
+						['parent', 'sibling', 'index'],
+						'object',
+						'unknown',
+					],
+					customGroups: { type: {}, value: {} },
+					environment: 'node',
+				},
+			],
+		},
+	},
+];
 
 /** @see https://github.com/jsx-eslint/eslint-plugin-react */
 const react = [
@@ -125,7 +163,7 @@ const importX = [
 			'import-x/no-named-as-default': 'off',
 			'import-x/no-named-as-default-member': 'off',
 			'import-x/order': [
-				'error',
+				'off',
 				{
 					'groups': [
 						'type',
@@ -356,6 +394,7 @@ export default [
 	...noUseExtendNative,
 	...node,
 	...importX,
+	...perfectionist,
 	...promise,
 	...prettier,
 	...react,
