@@ -13,14 +13,14 @@ export default class AuthController {
 
 		if (!userExists) {
 			// eslint-disable-next-line @typescript-eslint/only-throw-error
-			throw new errors.E_INVALID_CREDENTIALS();
+			throw new errors.E_INVALID_CREDENTIALS('Invalid credentials');
 		}
 
 		const isValidPassword = await hash.verify(userExists.password, password);
 
 		if (!isValidPassword) {
 			// eslint-disable-next-line @typescript-eslint/only-throw-error
-			throw new errors.E_INVALID_CREDENTIALS();
+			throw new errors.E_INVALID_CREDENTIALS('Invalid credentials');
 		}
 
 		await auth.use('web').login(userExists);

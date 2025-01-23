@@ -11,7 +11,6 @@ import Project from '#models/project';
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 	uids: ['username'],
-	// eslint-disable-next-line sonarjs/no-hardcoded-credentials
 	passwordColumnName: 'password',
 });
 
