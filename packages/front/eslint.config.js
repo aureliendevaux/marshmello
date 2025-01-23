@@ -70,6 +70,11 @@ const react = [
 	eslintReact.configs.flat['jsx-runtime'],
 	eslintReactRefresh.configs.recommended,
 	...eslintQuery.configs['flat/recommended'],
+	{
+		rules: {
+			'react/no-unescaped-entities': 'off',
+		},
+	},
 ];
 
 /** @see https://unocss.dev/integrations/eslint */
@@ -353,7 +358,6 @@ const unicorn = [
 			'unicorn/no-for-loop': 'error',
 			'unicorn/no-instanceof-array': 'error',
 			'unicorn/prefer-number-properties': 'error',
-			'unicorn/expiring-todo-comments': 'off',
 		},
 	},
 ];

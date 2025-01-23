@@ -1,7 +1,6 @@
 {
 	"routesDirectory": "./src/routes",
 	"generatedRouteTree": "./src/route_tree.gen.ts",
-	"virtualRouteConfig": "./src/routes.ts",
 	"routeFileIgnorePrefix": "-",
 	"quoteStyle": "single"
 }
