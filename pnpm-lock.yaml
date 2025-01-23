@@ -152,6 +152,9 @@ importers:
       '@tanstack/react-router':
         specifier: ^1.97.14
         version: 1.97.14(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@tanstack/virtual-file-routes':
+        specifier: ^1.97.8
+        version: 1.97.8
       '@tanstack/zod-form-adapter':
         specifier: ^0.41.3
         version: 0.41.3(zod@3.24.1)
