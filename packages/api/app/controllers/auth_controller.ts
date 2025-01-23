@@ -52,4 +52,15 @@ export default class AuthController {
 			username: user.username,
 		});
 	}
+
+	check({ auth, response }: HttpContext) {
+		if (auth.user === undefined) {
+			return response.unauthorized();
+		}
+
+		return response.ok({
+			uuid: auth.user.uuid,
+			username: auth.user.username,
+		});
+	}
 }

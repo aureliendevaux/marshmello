@@ -13,6 +13,7 @@ router
 		router.post('/login', [authController, 'login']).as('auth.login');
 		router.post('/logout', [authController, 'logout']).as('auth.logout').use(middleware.auth());
 		router.post('/register', [authController, 'register']).as('auth.register');
+		router.get('/check', [authController, 'check']).as('auth.check');
 	})
 	.prefix('/auth');
 
