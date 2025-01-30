@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'node:path';
 import TanStackRouterVite from '@tanstack/router-plugin/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
 	plugins: [
@@ -9,6 +10,7 @@ export default defineConfig({
 			virtualRouteConfig: './src/routes.ts',
 		}),
 		react(),
+		tailwindcss(),
 	],
 	server: {
 		host: true,

@@ -16,7 +16,6 @@ import typescriptESLint from 'typescript-eslint';
 import eslintUnicorn from 'eslint-plugin-unicorn';
 import eslintReact from 'eslint-plugin-react';
 import eslintReactRefresh from 'eslint-plugin-react-refresh';
-import unocss from '@unocss/eslint-config/flat';
 import eslintQuery from '@tanstack/eslint-plugin-query';
 import eslintPerfectionist from 'eslint-plugin-perfectionist';
 
@@ -76,9 +75,6 @@ const react = [
 		},
 	},
 ];
-
-/** @see https://unocss.dev/integrations/eslint */
-const unoCSS = [unocss];
 
 /** @see https://github.com/eslint-community/eslint-plugin-eslint-comments */
 const comments = [eslintComments.recommended];
@@ -371,9 +367,7 @@ export default [
 			'src/route_tree.gen.ts',
 			'eslint.config.js',
 			'vite.config.ts',
-			'uno.config.ts',
 			'prettier.config.js',
-			'tailwind.config.js',
 		],
 	},
 	/* Global options. */
@@ -402,7 +396,6 @@ export default [
 	...promise,
 	...prettier,
 	...react,
-	...unoCSS,
 	/* Specific for ESLint itself. */
 	{
 		files: ['eslint.config.js'],
