@@ -27,3 +27,7 @@ shell:
 
 psql:
 	docker compose exec -it database bash
+
+purge:
+	{{NODE}} rm -rf /home/node/app/node_modules /home/node/app/.pnpm-store /home/node/app/packages/api/node_modules /home/node/app/packages/front/node_modules /home/node/app/packages/ui/node_modules
+	{{NODE}} pnpm install
