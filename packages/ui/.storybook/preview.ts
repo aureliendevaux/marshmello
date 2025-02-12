@@ -2,6 +2,9 @@ import type { Preview, ReactRenderer } from '@storybook/react';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
+import '@fontsource-variable/plus-jakarta-sans';
+import '../src/index.css';
+
 const preview: Preview = {
 	parameters: {
 		controls: {

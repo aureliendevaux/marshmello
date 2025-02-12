@@ -29,13 +29,13 @@ export default {
 			server: {
 				host: true,
 				allowedHosts: ['ui.marshmello.aaa'],
-			},
-			port: 6006,
-			strictPort: true,
-			hmr: {
-				protocol: 'wss',
-				clientPort: 443,
 				port: 6006,
+				strictPort: true,
+				hmr: {
+					protocol: 'wss',
+					clientPort: 443,
+					port: 6006,
+				},
 			},
 		});
 	},
