@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
+	"main": "src/index.ts",
+	"scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
