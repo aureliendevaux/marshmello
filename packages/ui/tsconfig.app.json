@@ -23,6 +23,7 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true,
+		"esModuleInterop": true,
 		/* Aliases */
 		"baseUrl": ".",
 		"paths": {
@@ -32,6 +33,7 @@
 		}
 	},
 	"include": [
+		"bin",
 		"src"
 	]
 }
